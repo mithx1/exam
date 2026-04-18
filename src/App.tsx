@@ -1,10 +1,12 @@
-import './App.css'
-import MainGrid from './components/MainGrid'
+import "./App.css";
+import MainGrid from "./components/MainGrid";
 
 function App() {
   return (
-    <MainGrid input="Hello World" />
-  )
+    <>
+      <MainGrid input="Hello World" />
+    </>
+  );
 }
 
-export default App
+export default App;
