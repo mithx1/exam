@@ -58,7 +58,7 @@ const MainGrid: React.FC<MainGridProps> = ({ input }) => {
       return {
         x,
         y,
-        direction: direction as "NORTH" | "EAST" | "SOUTH" | "WEST",
+        direction: direction.toUpperCase() as "NORTH" | "EAST" | "SOUTH" | "WEST",
       };
     } catch {
       return null;
@@ -113,6 +113,7 @@ const MainGrid: React.FC<MainGridProps> = ({ input }) => {
               height: 80,
               border: "1px solid #ccc",
               textAlign: "center",
+              backgroundColor: isObjectPosition ? 'primary.light' : 'inherit',
               position: "relative",
             }}
           >
