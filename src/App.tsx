@@ -4,7 +4,7 @@ import MainGrid from "./components/MainGrid";
 function App() {
   return (
     <>
-      <MainGrid input="Hello World" />
+      <MainGrid input="1,1 NORTH" />
     </>
   );
 }

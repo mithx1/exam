@@ -7,6 +7,7 @@ import {
   TableRow,
   Paper,
   Box,
+  Alert,
 } from "@mui/material";
 import {
   ArrowUpward,
@@ -79,6 +80,21 @@ const MainGrid: React.FC<MainGridProps> = ({ input }) => {
     }
   };
 
+  
+  const parsedInput = parseInput(input);
+
+  if (!parsedInput) {
+    return (
+      <Box sx={{ mb: 2 }}>
+        <Alert severity="error">
+          Invalid input. Please use format: "x,y DIRECTION" where x,y are 0-4 and direction is NORTH, SOUTH, EAST, or WEST.
+        </Alert>
+      </Box>
+    );
+  }
+
+    const { x, y, direction } = parsedInput;
+
   // Create 5x5 grid - remember (0,0) is bottom left
   const renderGrid = () => {
     const rows = [];
@@ -88,6 +104,7 @@ const MainGrid: React.FC<MainGridProps> = ({ input }) => {
       const cells = [];
 
       for (let col = 0; col < 5; col++) {
+              const isObjectPosition = col === x && row === y;
         cells.push(
           <TableCell
             key={`${col}-${row}`}
@@ -99,14 +116,25 @@ const MainGrid: React.FC<MainGridProps> = ({ input }) => {
               position: "relative",
             }}
           >
-            {input} {/* Display input in each  cell */}
-            <Box
+                  {isObjectPosition && (
+              <Box
+                sx={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  height: '100%',
+                }}
+              >
+                {getDirectionIcon(direction)}
+              </Box>
+            )}
+               <Box
               sx={{
-                position: "absolute",
+                position: 'absolute',
                 bottom: 2,
                 right: 2,
                 fontSize: 10,
-                color: "text.secondary",
+                color: 'text.secondary',
               }}
             >
               {col},{row}
@@ -115,7 +143,10 @@ const MainGrid: React.FC<MainGridProps> = ({ input }) => {
         );
       }
 
-      rows.push(<TableRow key={row}>{cells}</TableRow>);
+      rows.push(
+        <TableRow key={row}>
+            {cells}
+        </TableRow>);
     }
 
     return rows;
