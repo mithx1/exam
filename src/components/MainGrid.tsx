@@ -13,7 +13,50 @@ interface MainGridProps {
     input: string;
 }
 
+interface ParsedInput {
+    x: number;
+    y: number;
+    direction: 'NORTH' | 'EAST' | 'SOUTH' | 'WEST';
+}
+
 const MainGrid: React.FC<MainGridProps> = ({ input }) => {
+
+    const parseInput = (input: string): ParsedInput | null => {
+        try{
+            const trimmed = input.trim();
+            const parts = trimmed.split(' ');
+
+            if (parts.length !==2){
+                return null;
+            }
+            const [coordinates, direction] = parts;
+            const [xStr, yStr] = coordinates.split(',');
+
+            const x = parseInt(xStr, 10);
+            const y = parseInt(yStr, 10);
+
+            if (isNaN(x) || isNaN(y)){
+                return null;
+            }
+
+            if (x < 0 || x > 4 || y < 0 || y > 4) {
+                return null;
+            }
+            
+            const validDirections = ['NORTH', 'EAST', 'SOUTH', 'WEST'];
+
+            if (!validDirections.includes(direction.toUpperCase())) {
+                return null;
+            }
+
+            return { 
+                x, 
+                y, 
+                direction: direction as 'NORTH' | 'EAST' | 'SOUTH' | 'WEST' };
+        } catch {
+            return null;
+        }
+    }
 
     // Create 5x5 grid - remember (0,0) is bottom left
     const renderGrid = () => {
